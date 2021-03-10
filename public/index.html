@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hot Restaurant</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container mt-4">
+    <div>
+      <div class="jumbotron">
+        <p class="text-center">Welcome to</p>
+        <h1 class="display-4 text-center text-bold">Hot Restaurant!</h1>
+        <hr class="my-4">
+        <p class="text-center">We only have 5 tables! Book your seat before they are all gone!</p>
+        <span class="d-flex justify-content-center">
+          <a class="btn btn-danger btn-lg m-1" href="/reservations.html" role="button">Make Reservation</a>
+          <a class="btn btn-secondary btn-lg m-1" href="/" role="button">Home</a>
+        </span>
+      </div>
+    </div>
+    <!-- Reservation -->
+    <div>
+      <h3>Reservations</h3>
+      <p style="font-weight: ;">Reservation will be held for 15 minutes. First 5 parties will be seated. Thank you.</p>
+      <div id="reservations">
+
+      </div>
+    </div>
+    <!-- <div>
+      <h3>Wait List</h3>
+      <div id="waitlist">
+
+      </div>
+    </div> -->
+
+  </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script>
+// script to get backend information
+  axios.get('/api/tables')
+    .then(({ data }) => {
+      console.log(data)
+
+      data.forEach((info, i) => {
+        let card = document.createElement("div")
+
+        if (i < 5) {
+          card.innerHTML = `
+          <div class="card mb-3">
+            <div class="card-header">
+              Table #${i + 1}
+            </div>
+            <div class="card-body">
+              <p>Name: ${info.name}</p>
+              <p>Id: ${info.user_id}</p>
+              <p>Email: ${info.email}</p>
+              <p>Phone: ${info.mobile}</p>
+            </div>
+          </div>
+          `
+        }
+        if (i < 5) {
+          document.getElementById("reservations").append(card)
+        } else {
+          document.getElementById("waitlist").append(card)
+        }
+      })
+    })
+    .catch((err) => console.log(err))
+
+</script>
+</body>
+</html>
